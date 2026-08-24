@@ -5,35 +5,40 @@ import { Label } from '@/shared/ui/label'
 import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { Alert, AlertDescription } from '@/shared/ui/alert'
-import { signIn, signUp } from './api'
+import { signIn, signInWithGoogle, signUp } from './api'
 
 export function AuthForm() {
   const [mode, setMode] = useState<'sign-in' | 'sign-up'>('sign-in')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
   async function handleSubmit(e: SubmitEvent) {
     e.preventDefault()
     setError('')
-    setNotice('')
     setSubmitting(true)
     try {
       if (mode === 'sign-in') {
         await signIn(email, password)
-        navigate('/')
       } else {
         await signUp(email, password)
-        setNotice('계정이 생성되었습니다. 이메일을 확인한 후 로그인해주세요.')
-        setMode('sign-in')
       }
+      navigate('/')
     } catch (err) {
       setError(err instanceof Error ? err.message : '문제가 발생했습니다')
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  async function handleGoogleSignIn() {
+    setError('')
+    try {
+      await signInWithGoogle()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '문제가 발생했습니다')
     }
   }
 
@@ -73,11 +78,6 @@ export function AuthForm() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          {notice && (
-            <Alert>
-              <AlertDescription>{notice}</AlertDescription>
-            </Alert>
-          )}
           <Button type="submit" disabled={submitting} className="w-full">
             {mode === 'sign-in' ? '로그인' : '회원가입'}
           </Button>
@@ -87,12 +87,25 @@ export function AuthForm() {
             onClick={() => {
               setMode(mode === 'sign-in' ? 'sign-up' : 'sign-in')
               setError('')
-              setNotice('')
             }}
           >
             {mode === 'sign-in' ? '계정이 없으신가요? 회원가입' : '이미 계정이 있으신가요? 로그인'}
           </Button>
         </form>
+        <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="h-px flex-1 bg-border" />
+          또는
+          <div className="h-px flex-1 bg-border" />
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          disabled
+          onClick={handleGoogleSignIn}
+        >
+          Google로 계속하기 (준비중)
+        </Button>
       </CardContent>
     </Card>
   )
