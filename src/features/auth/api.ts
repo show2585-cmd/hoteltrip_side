@@ -10,9 +10,10 @@ export async function signUp(email: string, password: string) {
   if (error) throw error
 }
 
-export async function signInWithGoogle() {
+
+export async function signInWithKakao() {
   const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
+    provider: 'kakao',
     options: { redirectTo: window.location.origin },
   })
   if (error) throw error

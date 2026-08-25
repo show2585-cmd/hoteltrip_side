@@ -5,6 +5,7 @@ import { BookingForm } from '@/features/booking'
 import { Card, CardContent } from '@/shared/ui/card'
 import { Alert, AlertDescription } from '@/shared/ui/alert'
 import { Skeleton } from '@/shared/ui/skeleton'
+import { KakaoMap } from '@/shared/ui/kakao-map'
 
 export function HotelPage() {
   const { id } = useParams<{ id: string }>()
@@ -68,6 +69,15 @@ export function HotelPage() {
           </p>
         </CardContent>
       </Card>
+      <div className="mt-6">
+        <h2 className="text-lg font-medium text-foreground">위치</h2>
+        <KakaoMap
+          latitude={hotel.latitude}
+          longitude={hotel.longitude}
+          markerTitle={hotel.name}
+          className="mt-2 h-64 w-full overflow-hidden rounded-xl border border-border"
+        />
+      </div>
       <div className="mt-6">
         <BookingForm hotelId={hotel.id} />
       </div>

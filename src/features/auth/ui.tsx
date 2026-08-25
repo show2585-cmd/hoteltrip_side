@@ -5,7 +5,7 @@ import { Label } from '@/shared/ui/label'
 import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { Alert, AlertDescription } from '@/shared/ui/alert'
-import { signIn, signInWithGoogle, signUp } from './api'
+import { signIn, signInWithKakao, signUp } from './api'
 
 export function AuthForm() {
   const [mode, setMode] = useState<'sign-in' | 'sign-up'>('sign-in')
@@ -33,10 +33,11 @@ export function AuthForm() {
     }
   }
 
-  async function handleGoogleSignIn() {
+
+  async function handleKakaoSignIn() {
     setError('')
     try {
-      await signInWithGoogle()
+      await signInWithKakao()
     } catch (err) {
       setError(err instanceof Error ? err.message : '문제가 발생했습니다')
     }
@@ -99,12 +100,10 @@ export function AuthForm() {
         </div>
         <Button
           type="button"
-          variant="outline"
-          className="w-full"
-          disabled
-          onClick={handleGoogleSignIn}
+          className="mt-2 w-full bg-[#FEE500] text-black hover:bg-[#FEE500]/90"
+          onClick={handleKakaoSignIn}
         >
-          Google로 계속하기 (준비중)
+          카카오로 계속하기
         </Button>
       </CardContent>
     </Card>

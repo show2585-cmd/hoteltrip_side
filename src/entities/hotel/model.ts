@@ -5,5 +5,7 @@ export interface Hotel {
   location: string
   image_url: string
   price_per_night: number
+  latitude: number
+  longitude: number
   created_at: string
 }
