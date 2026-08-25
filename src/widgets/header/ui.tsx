@@ -20,7 +20,9 @@ export function Header() {
       <nav className="flex items-center gap-4 text-sm">
         {user ? (
           <>
-            <Button variant="link" render={<Link to="/my-bookings">내 예약</Link>} />
+            <Button variant="link" render={<Link to="/my">마이</Link>} />
+            <Button variant="link" render={<Link to="/wishlist">찜</Link>} />
+            <Button variant="link" render={<Link to="/my-bookings">예약내역</Link>} />
             <span className="text-muted-foreground">{user.email}</span>
             <Button variant="outline" size="sm" onClick={handleSignOut}>
               로그아웃
